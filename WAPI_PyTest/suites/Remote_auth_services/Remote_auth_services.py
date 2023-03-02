@@ -446,7 +446,7 @@ class CAS(unittest.TestCase):
             output = child.before
             display_msg(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -847,7 +847,7 @@ class CAS(unittest.TestCase):
             child.expect("Infoblox >")
             output = child.before
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -1248,7 +1248,7 @@ class CAS(unittest.TestCase):
             child.expect("Infoblox >")
             output = child.before
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -1597,7 +1597,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -1873,7 +1873,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -2149,7 +2149,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -2427,7 +2427,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -2580,7 +2580,7 @@ class CAS(unittest.TestCase):
             output = child.before
             display_msg(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -2755,7 +2755,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -3032,7 +3032,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -3308,7 +3308,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -3586,7 +3586,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -3910,7 +3910,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
@@ -4189,7 +4189,7 @@ class CAS(unittest.TestCase):
             output = child.before
             print(output)
             child.close()
-            if 'Hostname:       '+config.grid_fqdn in output:
+            if 'Hostname:       '+config.grid1_master_fqdn in output:
                 display_msg("The user was  able to execute command as a super user")
                 assert True
             else:
