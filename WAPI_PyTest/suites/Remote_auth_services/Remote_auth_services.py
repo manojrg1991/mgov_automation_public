@@ -4169,7 +4169,7 @@ class CAS(unittest.TestCase):
         display_msg(response)
         if bool(re.match("\"authpolicy*.",str(response))):
             display_msg("Local, RADIUS, TACACS, LDAP and AD server added to the authentiation policy list successfully")
-            sleep(10)
+            sleep(30)
             assert True
         else:
             display_msg("Local, RADIUS, TACACS, LDAP and AD server addition to the authentiation policy list failed")
@@ -4179,6 +4179,7 @@ class CAS(unittest.TestCase):
     def test_123_Login_to_the_grid_using_LDAP_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI")
         display_msg("Starting log capture")
+        sleep(30)
         log("start","/var/log/syslog",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
