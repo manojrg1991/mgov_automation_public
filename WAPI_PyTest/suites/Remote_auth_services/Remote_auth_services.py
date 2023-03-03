@@ -45,6 +45,15 @@ def map_remote_user_to_the_group(group='admin-group'):
         display_msg("Selecting '"+group+"' for remote user mapping failed")
         assert False
 
+def dras_requests():
+    """
+    Perform dras command
+    """
+    print("sending dras")
+    dras_cmd = 'sudo /import/tools/qa/tools/dras/dras -i ' +str(config.grid1_master_vip)+ ' -q 5 -R 5 -t 10000 -n 1 -h -a B1:11:20:00:00:D0 -r'
+    print(dras_cmd)
+    dras_cmd1 = os.system(dras_cmd)
+    print (dras_cmd1)
 
 
 class CAS(unittest.TestCase):
@@ -4421,4 +4430,500 @@ class CAS(unittest.TestCase):
         else:
             display_msg("Log verification failed, check above logs for the failures")
             assert False
-  
+
+    @pytest.mark.run(order=131)
+    def test_131_Remove_all_services_auth_policy(self):
+
+        display_msg("Remove all service from the authentication policy")
+
+        display_msg("Fetch Authentication policy ref")
+        response = ib_NIOS.wapi_request('GET',object_type='authpolicy')
+        auth_policy_ref = json.loads(response)[0]['_ref']
+        display_msg("Authentication Policy ref: "+auth_policy_ref)
+
+        display_msg("Fetch local user ref")
+        response = ib_NIOS.wapi_request('GET',object_type='authpolicy?_return_fields=auth_services')
+        local_user_ref = json.loads(response)[0]['auth_services'][0]
+        display_msg("Local user ref: "+local_user_ref)
+
+        display_msg("Add Local authentiation policy list")
+        data={"auth_services":[local_user_ref]}
+        response = ib_NIOS.wapi_request('PUT',fields=json.dumps(data),ref=auth_policy_ref)
+        display_msg(response)
+        if bool(re.match("\"authpolicy*.",str(response))):
+            display_msg("Keep only Local user added to the authentiation policy list successfully")
+            sleep(10)
+            assert True
+        else:
+            display_msg("Keep only Local user to the authentiation policy list failed")
+            assert False
+
+
+    @pytest.mark.run(order=132)
+    def test_132_remove_radius_configured(self):
+
+        res1 = ib_NIOS.wapi_request('GET', object_type="radius:authservice")
+        print(res1)
+        res1 = json.loads(res1)
+        radiusref=res1[0][u'_ref']
+        response = ib_NIOS.wapi_request('DELETE',ref=radiusref)
+        print(response)
+
+    @pytest.mark.run(order=133)
+    def test_133_radius_auth_server(self):
+        display_msg("----------------------------------------------------")
+        display_msg("|     Testcase 1 Execution Started                 |")
+        display_msg("----------------------------------------------------")
+
+        display_msg("Creating radius service in authentication server group")
+        data={
+                "name": "radius",
+                "servers": [
+            {
+                "address": config.rad1_ip,
+                "shared_secret": "testing123",
+                "auth_port": 1812,
+                "auth_type": "PAP",
+                "disable": False,
+                "use_accounting": False,
+                "use_mgmt_port": False
+            },
+                    {
+                        "address": config.rad2_ip,
+                        "auth_port": 1812,
+                        "auth_type": "PAP",
+                        "shared_secret": "testing123",
+                        "use_accounting": False,
+                        "use_mgmt_port": False
+                    }
+                    ],
+                "enable_cache": True,
+                "mode": "ROUND_ROBIN"
+                }
+        radiusref = ib_NIOS.wapi_request('POST', object_type="radius:authservice",fields=json.dumps(data))
+        print(radiusref)
+        display_msg(radiusref)
+        radiusref = json.loads(radiusref)
+        if type(radiusref) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+        print("Test Case 133 Execution Completed")
+
+
+    @pytest.mark.run(order=134)
+    def test_134_add_ipv4_NAC_filters(self):
+
+        data={
+                "name": "good guys",
+                "expression": "((Sophos.ComplianceState=\"Compliant\" OR Sophos.ComplianceState=\"PartialCompliant\") AND Sophos.UserClass!=\"NACDeny\" AND Radius.ServerState=\"success\" AND Radius.ServerError=\"false\" AND Radius.ServerResponse=\"accept\")"
+        #"expression": "(Sophos.ComplianceState=\"Compliant\" OR Sophos.ComplianceState=\"PartialCompliant\" OR Radius.ServerError=\"false\" OR Radius.ServerState=\"success\")"        
+            }
+        Nacref1 = ib_NIOS.wapi_request('POST', object_type="filternac",fields=json.dumps(data))
+        print(Nacref1)
+        if type(Nacref1) == tuple:
+            if Nacref1[0]==400 or Nacref1[0]==401:
+                assert False
+            else:
+                assert True
+                print("Test Case 134 Execution Completed")
+
+
+    @pytest.mark.run(order=135)
+    def test_135_add_ipv4_MAC_filters(self):
+
+        data={"name": "mac_filter"}
+        Nacref1 = ib_NIOS.wapi_request('POST', object_type="filtermac",fields=json.dumps(data))
+        print(Nacref1)
+        # MAC Filter Address
+        mac_filter_address_1 = {"filter":"mac_filter","mac":"B1:11:20:00:00:D0"}
+        response = ib_NIOS.wapi_request('POST', object_type="macfilteraddress", fields=json.dumps(mac_filter_address_1))
+        print(response)
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+        print("Test Case 135 Execution Completed")
+
+    @pytest.mark.run(order=136)
+    def test_136_enable_dhcp_create_network_range(self):
+
+                #Create a DHCP network 10.0.0.0/8
+        data = {"network": "10.0.0.0/8","network_view": "default","members":[{"_struct": "dhcpmember","ipv4addr":config.grid_lan_vip}]}
+        response = ib_NIOS.wapi_request('POST', object_type="network", fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        print("Created the ipv4network 10.0.0.0/8 in default view")
+
+                #Create a range from 10.0.0.1 to 10.0.0.10
+        data = {"network":"10.0.0.0/8","start_addr":"10.0.0.1","end_addr":"10.0.0.10","network_view": "default","name": "Production","member": {"_struct": "dhcpmember","ipv4addr": config.grid_lan_vip}}
+        response = ib_NIOS.wapi_request('POST', object_type="range", fields=json.dumps(data))
+        print (response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+                #Enable DHCP service
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="member:dhcpproperties")
+        ref1 = json.loads(get_ref)[0]['_ref']
+        data = {"enable_dhcp":True}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid",)
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+        print("Test Case 136 Execution Completed")
+
+
+    @pytest.mark.run(order=137)
+    def test_137_add_radius_server_in_dhcp_auth_server_group(self):
+
+        radius_ref = ib_NIOS.wapi_request('GET', object_type="radius:authservice")
+        radius_ref = json.loads(radius_ref)
+        radiusref=radius_ref[0]['_ref']
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="member:dhcpproperties")
+        ref1 = json.loads(get_ref)[0]['_ref']
+
+        data = {"authn_server_group_enabled": True,"auth_server_group":"radius"}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid",)
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+        print("Test Case 137 Execution Completed")
+
+    @pytest.mark.run(order=138)
+    def test_138_add_nac_mac_filters_to_range(self):
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="range")
+        ref1 = json.loads(get_ref)[0]['_ref']
+
+        data={"logic_filter_rules": [{"filter": "good guys", "type": "NAC"},{"filter": "mac_filter", "type": "MAC"}], "nac_filter_rules": [{"filter": "good guys","permission": "Allow"}],"mac_filter_rules": [{"filter": "mac_filter","permission": "Allow"}]}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid")
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+
+        print("Test Case 138 Execution Completed")
+
+    @pytest.mark.run(order=139)
+    def test_139_send_dras_request(self):
+        display_msg("----------------------------------------------------")
+        display_msg("|     Testcase 139 Execution Started                 |")
+        display_msg("----------------------------------------------------")
+        log("start","/var/log/messages",config.grid_vip)
+        dras_requests()
+        log("stop","/var/log/messages",config.grid_vip)
+        LookFor = "DHCPACK"
+        logs=logv(LookFor,"/var/log/messages",config.grid_vip)
+
+        if logs==None:
+            logging.info("Test Case 139 Execution Completed")
+            assert False
+        else:
+            logging.info("Test Case 139 Execution failed")
+            assert True
+
+    @pytest.mark.run(order=140)
+    def test_140_modify_nac_filters_to_range(self):
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="range")
+        ref1 = json.loads(get_ref)[0]['_ref']
+        #only nac filter rules should be present and no mac filter
+        data={"nac_filter_rules": [{"filter": "good guys","permission": "Allow"}]}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid")
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+
+        print("Test Case 140 Execution Completed")
+
+    @pytest.mark.run(order=141)
+    def test_141_send_dras_request(self):
+        display_msg("----------------------------------------------------")
+        display_msg("|     Testcase 141 Execution Started                 |")
+        display_msg("----------------------------------------------------")
+        log("start","/var/log/messages",config.grid_vip)
+        dras_requests()
+        log("stop","/var/log/messages",config.grid_vip)
+        LookFor = "DHCPACK"    
+        logs=logv(LookFor,"/var/log/messages",config.grid_vip)
+
+        if logs==None:
+            logging.info("Test Case 141 Execution Completed")
+            assert False
+        else:
+            logging.info("Test Case 141 Execution failed")
+            assert True
+
+    @pytest.mark.run(order=142)
+    def test_142_deny_nac_filters_to_range(self):
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="range")
+        ref1 = json.loads(get_ref)[0]['_ref']
+
+        data={"nac_filter_rules": [{"filter": "good guys","permission": "Deny"}],"mac_filter_rules": [{"filter": "mac_filter","permission": "Allow"}]}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid")
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+
+        print("Test Case 142 Execution Completed")
+
+
+    @pytest.mark.run(order=143)
+    def test_143_send_dras_request(self):
+        log("start","/var/log/messages",config.grid_vip)
+        dras_requests()
+        log("stop","/var/log/messages",config.grid_vip)
+        LookFor = "DHCPACK"
+        logs=logv(LookFor,"/var/log/messages",config.grid_vip)
+
+        if logs==None:
+            logging.info("Test Case 143 Execution Completed")
+            assert False
+        else:
+            logging.info("Test Case 143 Execution failed")
+            assert True
+
+    @pytest.mark.run(order=144)
+    def test_144_deny_nac_filters_to_range(self):
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="range")
+        ref1 = json.loads(get_ref)[0]['_ref']
+
+        data={"nac_filter_rules": [{"filter": "good guys","permission": "Allow"}],"mac_filter_rules": [{"filter": "mac_filter","permission": "Deny"}]}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid")
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+
+        print("Test Case 144 Execution Completed")
+    
+
+    @pytest.mark.run(order=145)
+    def test_145_send_dras_request(self):
+        log("start","/var/log/messages",config.grid_vip)
+        dras_requests()
+        log("stop","/var/log/messages",config.grid_vip)
+        LookFor = "DHCPACK"
+        logs=logv(LookFor,"/var/log/messages",config.grid_vip)
+
+        if logs==None:
+            logging.info("Test Case 145 Execution Completed")
+            assert True
+        else:
+            logging.info("Test Case 145 Execution failed")
+            assert False
+
+    @pytest.mark.run(order=146)
+    def test_146_deny_nac_filters_to_range(self):
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="range")
+        ref1 = json.loads(get_ref)[0]['_ref']
+
+        data={"nac_filter_rules": [{"filter": "good guys","permission": "Deny"}],"mac_filter_rules": [{"filter": "mac_filter","permission": "Deny"}]}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid")
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+
+        print("Test Case 146 Execution Completed")
+
+
+    @pytest.mark.run(order=147)
+    def test_147_send_dras_request(self):
+        log("start","/var/log/messages",config.grid_vip)
+        dras_requests()
+        log("stop","/var/log/messages",config.grid_vip)
+        LookFor = "DHCPACK"
+        logs=logv(LookFor,"/var/log/messages",config.grid_vip)
+
+        if logs==None:
+            logging.info("Test Case 147 Execution Completed")
+            assert True
+        else:
+            logging.info("Test Case 147 Execution failed")
+            assert False
+
+    @pytest.mark.run(order=148)
+    def test_148_deny_nac_filters_to_range(self):
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="range")
+        ref1 = json.loads(get_ref)[0]['_ref']
+
+        data={"nac_filter_rules": [{"filter": "good guys","permission": "Deny"}]}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        print(response)
+        if type(response)  == tuple:
+            if response[0] == 400 or response[0] == 401:
+                assert False
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid")
+        ref = json.loads(grid)[0]['_ref']
+
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data),)
+        sleep(20) #wait for 20 secs for the service to get started
+        if type(response) == tuple:
+            if response[0]==400 or response[0]==401:
+                assert False
+            else:
+                assert True
+
+        print("Test Case 148 Execution Completed")
+
+
+    @pytest.mark.run(order=149)
+    def test_149_send_dras_request(self):
+        log("start","/var/log/messages",config.grid_vip)
+        dras_requests()
+        log("stop","/var/log/messages",config.grid_vip)
+        LookFor = "no permitted ranges with available leases"
+        logs=logv(LookFor,"/var/log/messages",config.grid_vip)
+
+        if logs==None:
+            logging.info("Test Case 149 Execution Completed")
+            assert False
+        else:
+            logging.info("Test Case 149 Execution failed")
+            assert True
+
+    @pytest.mark.run(order=150) 
+    def test_150_clean_data(self):
+
+        display_msg("----------------------------------------------------")
+        display_msg("|     Testcase 150 Execution Started                 |")
+        display_msg("----------------------------------------------------")
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="member:dhcpproperties")
+        ref1 = json.loads(get_ref)[0]['_ref']
+        data = {"authn_server_group_enabled": False}
+        response = ib_NIOS.wapi_request('PUT',ref=ref1,fields=json.dumps(data))
+        display_msg(response)
+
+        get_ref = ib_NIOS.wapi_request('GET', object_type="network")
+        ref1 = json.loads(get_ref)[0]['_ref']
+        response = ib_NIOS.wapi_request('DELETE',ref=ref1)
+        display_msg(response)
+
+        radius_ref = ib_NIOS.wapi_request('GET', object_type="radius:authservice")
+        radiusref = json.loads(radius_ref)[0]['_ref']
+        display_msg(radiusref)
+        response = ib_NIOS.wapi_request('DELETE',ref=radiusref)
+        display_msg(response)
+
+        #filternac
+        get_ref = ib_NIOS.wapi_request('GET', object_type="filternac")
+        ref1 = json.loads(get_ref)[0]['_ref']
+        response = ib_NIOS.wapi_request('DELETE',ref=ref1)
+        display_msg(response)
+
+        #filtermac
+        get_ref = ib_NIOS.wapi_request('GET', object_type="filtermac")
+        ref1 = json.loads(get_ref)[0]['_ref']
+        response = ib_NIOS.wapi_request('DELETE',ref=ref1)
+        display_msg(response)
+
+        grid =  ib_NIOS.wapi_request('GET', object_type="grid")
+        ref = json.loads(grid)[0]['_ref']
+        data= {"member_order" : "SIMULTANEOUSLY","restart_option":"FORCE_RESTART","service_option": "ALL"}
+        response = ib_NIOS.wapi_request('POST', object_type = ref + "?_function=restartservices",fields=json.dumps(data))
+
+
+
