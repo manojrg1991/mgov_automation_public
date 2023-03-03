@@ -436,7 +436,7 @@ class CAS(unittest.TestCase):
     def test_014_Login_to_the_grid_using_RADIUS_credentials_as_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using RADIUS credentials via CLI as a superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -469,13 +469,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info RADIUS authentication succeeded for user "+config.radius_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info RADIUS authentication succeeded for user "+config.radius_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -517,7 +517,7 @@ class CAS(unittest.TestCase):
     def test_017_Login_to_the_grid_using_RADIUS_credentials_as_non_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using RADIUS credentials via CLI as a non-superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -549,13 +549,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info RADIUS authentication succeeded for user "+config.radius_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info RADIUS authentication succeeded for user "+config.radius_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -838,7 +838,7 @@ class CAS(unittest.TestCase):
     def test_028_Login_to_the_grid_using_TACACS_credentials_as_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using TACACS credentials via CLI as a superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -871,13 +871,13 @@ class CAS(unittest.TestCase):
         display_msg("Stopping log capture")
         sleep(20)
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info TACACS\+ authentication succeeded for user "+config.tacacs_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info TACACS\+ authentication succeeded for user "+config.tacacs_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -946,7 +946,7 @@ class CAS(unittest.TestCase):
     def test_032_Login_to_the_grid_using_TACACS_credentials_as_non_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using TACACS credentials via CLI as a non-superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -978,13 +978,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info TACACS\+ authentication succeeded for user "+config.tacacs_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info TACACS\+ authentication succeeded for user "+config.tacacs_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -1239,7 +1239,7 @@ class CAS(unittest.TestCase):
     def test_042_Login_to_the_grid_using_AD_credentials_as_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using AD credentials via CLI as a superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -1272,13 +1272,13 @@ class CAS(unittest.TestCase):
         display_msg("Stopping log capture")
         sleep(20)
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info AD authentication succeeded for user "+config.ad_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info AD authentication succeeded for user "+config.ad_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -1347,7 +1347,7 @@ class CAS(unittest.TestCase):
     def test_046_Login_to_the_grid_using_AD_credentials_as_non_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using AD credentials via CLI as a non-superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -1379,13 +1379,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info AD authentication succeeded for user "+config.ad_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info AD authentication succeeded for user "+config.ad_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -1587,7 +1587,7 @@ class CAS(unittest.TestCase):
     def test_053_Login_to_the_grid_using_AD_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using AD credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -1620,13 +1620,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication succeeded for user "+config.ad_username_ssl+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication succeeded for user "+config.ad_username_ssl+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -1662,7 +1662,7 @@ class CAS(unittest.TestCase):
     def test_055_Login_to_the_grid_using_invalid_credentials_and_check_if_AD_authentication_fails(self):
         display_msg("Logging into the grid using invalid AD credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -1693,13 +1693,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication for user invalid failed.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication for user invalid failed.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -1863,7 +1863,7 @@ class CAS(unittest.TestCase):
     def test_060_Login_to_the_grid_using_AD_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using AD credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -1896,13 +1896,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication succeeded for user "+config.ad_username_ssl+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication succeeded for user "+config.ad_username_ssl+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -1938,7 +1938,7 @@ class CAS(unittest.TestCase):
     def test_062_Login_to_the_grid_using_invalid_credentials_and_check_if_AD_authentication_fails(self):
         display_msg("Logging into the grid using invalid AD credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -1969,13 +1969,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication for user invalid failed.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication for user invalid failed.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2139,7 +2139,7 @@ class CAS(unittest.TestCase):
     def test_067_Login_to_the_grid_using_AD_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using AD credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2172,13 +2172,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication succeeded for user "+config.ad_nested_user1+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication succeeded for user "+config.ad_nested_user1+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2214,7 +2214,7 @@ class CAS(unittest.TestCase):
     def test_069_Login_to_the_grid_using_invalid_credentials_and_check_if_AD_authentication_fails(self):
         display_msg("Logging into the grid using invalid AD credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2245,13 +2245,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication for user invalid failed.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication for user invalid failed.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2417,7 +2417,7 @@ class CAS(unittest.TestCase):
     def test_074_Login_to_the_grid_using_AD_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using AD credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2450,13 +2450,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication succeeded for user "+config.ad_nested_user2+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication succeeded for user "+config.ad_nested_user2+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2492,7 +2492,7 @@ class CAS(unittest.TestCase):
     def test_076_Login_to_the_grid_using_invalid_credentials_and_check_if_AD_authentication_fails(self):
         display_msg("Logging into the grid using invalid AD credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2523,13 +2523,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*AD authentication for user invalid failed.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*AD authentication for user invalid failed.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2570,7 +2570,7 @@ class CAS(unittest.TestCase):
     def test_079_Login_to_the_grid_using_LDAP_credentials_as_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI as a superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2603,13 +2603,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2651,7 +2651,7 @@ class CAS(unittest.TestCase):
     def test_082_Login_to_the_grid_using_LDAP_credentials_as_non_superuser_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI as a non-superuser")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2683,13 +2683,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2745,7 +2745,7 @@ class CAS(unittest.TestCase):
     def test_086_Login_to_the_grid_using_LDAP_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2778,13 +2778,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -2820,7 +2820,7 @@ class CAS(unittest.TestCase):
     def test_088_Login_to_the_grid_using_invalid_credentials_and_check_if_LDAP_authentication_fails(self):
         display_msg("Logging into the grid using invalid LDAP credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -2851,13 +2851,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3022,7 +3022,7 @@ class CAS(unittest.TestCase):
     def test_093_Login_to_the_grid_using_LDAP_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -3055,13 +3055,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3097,7 +3097,7 @@ class CAS(unittest.TestCase):
     def test_095_Login_to_the_grid_using_invalid_credentials_and_check_if_LDAP_authentication_fails(self):
         display_msg("Logging into the grid using invalid LDAP credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -3128,13 +3128,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3298,7 +3298,7 @@ class CAS(unittest.TestCase):
     def test_100_Login_to_the_grid_using_LDAP_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -3331,13 +3331,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3373,7 +3373,7 @@ class CAS(unittest.TestCase):
     def test_102_Login_to_the_grid_using_invalid_credentials_and_check_if_LDAP_authentication_fails(self):
         display_msg("Logging into the grid using invalid LDAP credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -3404,13 +3404,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3576,7 +3576,7 @@ class CAS(unittest.TestCase):
     def test_107_Login_to_the_grid_using_LDAP_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -3609,13 +3609,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3651,7 +3651,7 @@ class CAS(unittest.TestCase):
     def test_109_Login_to_the_grid_using_invalid_credentials_and_check_if_LDAP_authentication_fails(self):
         display_msg("Logging into the grid using invalid LDAP credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -3682,13 +3682,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3900,7 +3900,7 @@ class CAS(unittest.TestCase):
     def test_116_Login_to_the_grid_using_LDAP_credentials_and_execute_cli_command(self):
         display_msg("Logging into the grid using LDAP credentials via CLI")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -3933,13 +3933,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -3975,7 +3975,7 @@ class CAS(unittest.TestCase):
     def test_118_Login_to_the_grid_using_invalid_credentials_and_check_if_LDAP_authentication_fails(self):
         display_msg("Logging into the grid using invalid LDAP credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -4006,13 +4006,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -4180,7 +4180,7 @@ class CAS(unittest.TestCase):
         display_msg("Logging into the grid using LDAP credentials via CLI")
         display_msg("Starting log capture")
         sleep(30)
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -4213,13 +4213,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info LDAP authentication succeeded for user "+config.ldap_username+".*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -4255,7 +4255,7 @@ class CAS(unittest.TestCase):
     def test_125_Login_to_the_grid_using_invalid_credentials_and_check_if_LDAP_authentication_fails(self):
         display_msg("Logging into the grid using invalid LDAP credentials and check if login fails")
         display_msg("Starting log capture")
-        log("start","/var/log/syslog",config.grid_vip)
+        log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -4286,13 +4286,13 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        log("stop","/var/log/syslog",config.grid_vip)
+        log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
         count=0
-        display_msg("Verifying syslog for the authentication logs")
-        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/syslog",config.grid_vip)
+        display_msg("Verifying messages for the authentication logs")
+        validate = logv(".*info No authentication methods succeeded for user invalid.*","/var/log/messages",config.grid_vip)
         if validate != None:
             count +=1
             display_msg("Syslog verification successfull")
@@ -4326,7 +4326,7 @@ class CAS(unittest.TestCase):
     @pytest.mark.run(order=127)
     def test_127_Perform_WAPI_call_using_LDAP_user(self):
         display_msg("Starting log capture")
-        #log("start","/var/log/syslog",config.grid_vip)
+        #log("start","/var/log/messages",config.grid_vip)
         log("start","/infoblox/var/infoblox.log",config.grid_vip)
         log("start","/infoblox/var/audit.log",config.grid_vip)
         sleep(10)
@@ -4346,7 +4346,7 @@ class CAS(unittest.TestCase):
         sleep(20)
         display_msg("Stopping log capture")
 
-        #log("stop","/var/log/syslog",config.grid_vip)
+        #log("stop","/var/log/messages",config.grid_vip)
         log("stop","/infoblox/var/infoblox.log",config.grid_vip)
         log("stop","/infoblox/var/audit.log",config.grid_vip)
         
