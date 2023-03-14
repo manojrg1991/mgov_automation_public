@@ -4552,7 +4552,7 @@ class CAS(unittest.TestCase):
     def test_136_enable_dhcp_create_network_range(self):
 
                 #Create a DHCP network 10.0.0.0/8
-        data = {"network": "10.0.0.0/8","network_view": "default","members":[{"_struct": "dhcpmember","ipv4addr":config.grid_lan_vip}]}
+        data = {"network": "10.0.0.0/8","network_view": "default","members":[{"_struct": "dhcpmember","ipv4addr":config.grid1_master_vip}]}
         response = ib_NIOS.wapi_request('POST', object_type="network", fields=json.dumps(data))
         print(response)
         if type(response)  == tuple:
@@ -4562,7 +4562,7 @@ class CAS(unittest.TestCase):
         print("Created the ipv4network 10.0.0.0/8 in default view")
 
                 #Create a range from 10.0.0.1 to 10.0.0.10
-        data = {"network":"10.0.0.0/8","start_addr":"10.0.0.1","end_addr":"10.0.0.10","network_view": "default","name": "Production","member": {"_struct": "dhcpmember","ipv4addr": config.grid_lan_vip}}
+        data = {"network":"10.0.0.0/8","start_addr":"10.0.0.1","end_addr":"10.0.0.10","network_view": "default","name": "Production","member": {"_struct": "dhcpmember","ipv4addr": config.grid1_master_vip}}
         response = ib_NIOS.wapi_request('POST', object_type="range", fields=json.dumps(data))
         print (response)
         if type(response)  == tuple:
